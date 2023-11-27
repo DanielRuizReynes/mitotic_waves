@@ -819,6 +819,23 @@ def fill_nans(indata,sx,sy):
         
     return new_indata
 
+# Figure 1
+
+def custom_guassian_kde(dat_x,dat_y, nx=500,ny=500):
+    sy = 0.2
+    sx = 50
+    xx = np.linspace(dat_x.min(),dat_x.max(),nx)
+    yy = np.linspace(dat_y.min(),dat_y.max(),ny)
+
+    dens = np.zeros((len(yy),len(xx)))
+    for i,xi in enumerate(xx):
+        weights_x = np.exp(-(dat_x - xi)**2/(2*sx*sx))/(np.sqrt(2*np.pi)*sx) 
+        # kde = gaussian_kde(dat_y,sy,weights = weights_x)
+        kde = gaussian_kde(dat_y,weights = weights_x)
+        densy = kde(yy)
+        dens[:,i] = densy/np.amax(densy)
+    return xx,yy,dens
+
 
 # Figure 2
 def create_with_timecolormap(x,y,z,
