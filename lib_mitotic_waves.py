@@ -121,6 +121,32 @@ def custom_colormap(palette_colors, index = False):
     cm = colors.LinearSegmentedColormap.from_list('blue_red', indx_clr, 256)
     return cm
 
+def hex_to_rgb(value):
+    value = value.lstrip('#')
+    lv = len(value)
+    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+
+def create_with_timecolormap( x,y,z, cmap="plasma",linewidth=2,linestyle='solid'):
+    points = np.array([x[0:-1:100], y[0:-1:100]]).T.reshape(-1,1,2)
+    # points = np.array([x, y]).T.reshape(-1,1,2)
+    segments = np.concatenate([points[:-1],points[1:]], axis=1)
+    norm = plt.Normalize(np.amin(z),np.amax(z))
+    lc = LineCollection(segments, cmap=cmap, norm=norm,linewidth=linewidth,linestyle=linestyle)
+    lc.set_array(z[0:-1:100])
+    return lc
+
+def custom_colormap_palette(palette_colors, index = False):
+    if not index:
+        index = np.linspace(0,1,len(palette_colors))
+    indx_clr = list(zip(index,palette_colors))
+    cm = colors.LinearSegmentedColormap.from_list('blue_red', indx_clr, 256)
+    return cm
+
+def plot_xyt(ax0, x,y,t, cols, linewidth = 3,label=None):
+    xx, yy, tt = x.copy(), y.copy(), t.copy()
+    cmap = custom_colormap_palette(cols)
+    lc0 = create_with_timecolormap( x, y, t, cmap = cmap,linewidth=linewidth)
+    ax0.add_collection(lc0)
 
 def color_scale(palette_colors = ['#402D77','#009ED6', '#009642','#FBE136','#E5382C']):
     index = np.linspace(0,1,len(palette_colors))
