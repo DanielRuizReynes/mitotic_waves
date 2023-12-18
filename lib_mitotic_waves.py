@@ -128,7 +128,6 @@ def hex_to_rgb(value):
 
 def create_with_timecolormap_expt( x,y,z, cmap="plasma",linewidth=2,linestyle='solid'):
     points = np.array([x[0:-1:100], y[0:-1:100]]).T.reshape(-1,1,2)
-    # points = np.array([x, y]).T.reshape(-1,1,2)
     segments = np.concatenate([points[:-1],points[1:]], axis=1)
     norm = plt.Normalize(np.amin(z),np.amax(z))
     lc = LineCollection(segments, cmap=cmap, norm=norm,linewidth=linewidth,linestyle=linestyle)
