@@ -17,7 +17,7 @@ from scipy.io import FortranFile
 from scipy.optimize import fsolve
 from scipy.signal import find_peaks
 from scipy.ndimage import gaussian_filter
-from scipy.signal import detrend
+from scipy.signal import detrend, savgol_filter
 from scipy.signal import coherence
 from scipy.interpolate import interp1d
 from scipy.interpolate import interp2d
@@ -126,7 +126,7 @@ def hex_to_rgb(value):
     lv = len(value)
     return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
-def create_with_timecolormap( x,y,z, cmap="plasma",linewidth=2,linestyle='solid'):
+def create_with_timecolormap_expt( x,y,z, cmap="plasma",linewidth=2,linestyle='solid'):
     points = np.array([x[0:-1:100], y[0:-1:100]]).T.reshape(-1,1,2)
     # points = np.array([x, y]).T.reshape(-1,1,2)
     segments = np.concatenate([points[:-1],points[1:]], axis=1)
@@ -393,6 +393,45 @@ def extract_data_v1(dir_el, plot_crop=False,plot_traj=False,plot_cur=False,sigma
     data_t = get_period_speed(waves,x,t,array0) 
     return data_t 
 
+def extract_data_plt(ax,dir_el, xticks,flip=False,plot_crop=False,plot_traj=False,plot_cur=False,sigma=1,order=150):
+    x,t,array,limits = dir_el['x'],dir_el['t'],dir_el['Activity'],dir_el['limits']
+    x,t,array = crop(x,t,array,limits)
+    if plot_crop:
+        if flip:
+            ax.pcolormesh(t,np.flipud(x),array,cmap='jet')
+        else:
+            ax.pcolormesh(t,x,array,cmap='jet')
+    # clean_array = recursive_fill_nans(array,sx=10,sy=10)
+    clean_array = fill_nans(array,sx=15,sy=15)
+    clean_array1 = fill_nans(clean_array,sx=15,sy=15)
+    array0 = detrend(clean_array1,axis=1)
+    array = gaussian_filter(array0, sigma=sigma)   
+
+    waves_traj = get_traj(t,x,array.T)
+    new_waves_traj = reconstruct_waves(waves_traj)
+    if plot_traj:
+        for el in new_waves_traj:
+            ax.plot(el[0],el[1],'.',markersize=2,c='66C3FF')
+    
+    #waves = poly_waves_traj(waves_traj,order=order)
+    waves = spl_waves_traj(new_waves_traj,t[1]-t[0])
+    if plot_cur:
+        for el in waves:
+            if flip:
+                ax.plot(el[0],np.flipud(el[1]),c='w')
+            else:
+                ax.plot(el[0],el[1],c='w') 
+    if plot_traj or plot_crop or plot_cur:
+        ax.set_xlabel('Time (min)')
+        ax.set_ylabel('Space (mm)')
+        # ax.set_yticks([0,2000,4000,6000,8000,10000])
+        ax.set_yticklabels(['0.0','2.0','4.0','6.0','8.0','10.0'])
+        ax.set_xticks(xticks)
+        ax.set_xticklabels(['0','500','1000','1500'])
+        # plt.show()
+    data_t = get_period_speed(waves,x,t,array0) 
+    return data_t
+
 def crop(x,t,array, limits):
     return x[limits[0]:limits[1]],t[limits[2]:limits[3]],array[limits[0]:limits[1],limits[2]:limits[3]]
 
@@ -546,19 +585,11 @@ def local_std(arr,sigma=1):
     return local_std
 
 
-def plot_xyt(ax0,ax1,ax2, x,y,t, cols, linewidth = 3,label=None):
+def plot_xyt_expt(ax0, x,y,t, cols, linewidth = 3,label=None):
     xx, yy, tt = x.copy(), y.copy(), t.copy()
-    norm = colors.Normalize(vmin=np.min(tt), vmax=np.max(tt))
-    cmap = custom_colormap(cols)
-    lc0 = create_with_timecolormap( x, y, t, cmap = cmap,linewidth=linewidth,norm=norm)
-    lc1 = create_with_timecolormap( t, x, t, cmap = cmap,linewidth=linewidth,norm=norm)
-    lc2 = create_with_timecolormap( t, y, t, cmap = cmap,linewidth=linewidth,norm=norm)
+    cmap = custom_colormap_palette(cols)
+    lc0 = create_with_timecolormap_expt( x, y, t, cmap = cmap,linewidth=linewidth)
     ax0.add_collection(lc0)
-    ax1.add_collection(lc1)
-    ax2.add_collection(lc2)
-
-    # ax1.plot(t, x, label=label,c=cols[-1],linewidth=lw)
-    # ax2.plot(t, y, label=label,c=cols[-1],linewidth=lw)
     
     
 def group_tubes_v1(dd,depth_dd):
