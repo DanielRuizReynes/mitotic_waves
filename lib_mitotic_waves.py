@@ -998,7 +998,7 @@ def plot_phaseplane_fig2(ins,ax,color='blue',xlim = [40,80],ylim=[0,70],axis=Tru
     ax.spines['top'].set_visible(False)
     
     
-def plot_kymo_figure2(ax,folder,chi,t_o2):
+def plot_kymo_figure2(ax,folder,chi,t_o2,colormap=None):
     phi_a, phi_i = import_evolution(folder)
     x, y, t = create_spacetime(folder)
     tt1 = writen_time_array_plus_one(folder)
@@ -1013,7 +1013,9 @@ def plot_kymo_figure2(ax,folder,chi,t_o2):
     yax = divider.append_axes("left", size=1.2, pad=0.1)
     cax = divider.append_axes('right', size='3%', pad=0.05)
 
-    colormap = color_scale()
+    if colormap is None:
+        colormap = color_scale()
+
     im = ax.pcolormesh(t,x*chi,phi_a[:,0,:].T,cmap=colormap,vmax=70,rasterized=True)#, vmin=0,vmax=90)
     
     # colormap = custom_colormap(['white','#E4EBF1','#5c87ad','#19354D'])
@@ -1060,13 +1062,14 @@ def plot_kymo_figure2(ax,folder,chi,t_o2):
     ks_plot = 1.5
     yax.plot(ks_plot*(1+2*t0_x),x*chi,c='gray') 
     
-def plot_simple_kymo(ax,folder,chi,plot_traj='None',color='orange'):
+def plot_simple_kymo(ax,folder,chi,plot_traj='None',color='orange',colormap=None):
     phi_a, phi_i = import_evolution(folder)
     x, y, t = create_spacetime(folder)
     tt1 = writen_time_array_plus_one(folder)
 
-    
-    colormap = color_scale()
+    if colormap is None: 
+        colormap = color_scale()
+
     im = ax.pcolormesh(t,x*chi,phi_a[:,0,:].T,cmap=colormap,vmax=70,rasterized=True)#, vmin=0,vmax=90)
 
     # colormap = custom_colormap(['white','#E4EBF1','#5c87ad'])
@@ -1335,12 +1338,13 @@ def plot_timeseries_fig5(ax1,folder,color='blue',xlim = [40,80],ylim=[0,70]):
     ax1.set_ylim(ylim[0],ylim[1])
     ax1.axis('off')
     
-def plot_kymo_fig5_1(ax,yax,ax1,cax,folder,chi,color='blue',plot_ictau=True,plot_cbar=True,plot_xaxis=True,plot_yaxis=True,plot_ic=False,plot_waves=False,tlim=1400):
+def plot_kymo_fig5_1(ax,yax,ax1,cax,folder,chi,color='blue',plot_ictau=True,plot_cbar=True,plot_xaxis=True,plot_yaxis=True,plot_ic=False,plot_waves=False,tlim=1400,colormap=None):
     phi_a, phi_i = import_evolution(folder)
     x, y, t = create_spacetime(folder)
     taux = import_field(folder  + 'taux.dat')[0]
 
-    colormap = color_scale()
+    if colormap is None:
+        colormap = color_scale()
     # colormap = custom_colormap(['white','#E4EBF1','#5c87ad','#19354D'])
 
     
@@ -1426,7 +1430,7 @@ def plot_kymo_fig5_1(ax,yax,ax1,cax,folder,chi,color='blue',plot_ictau=True,plot
 
     
 #Figure S1
-def plot_kymo_figure_s1(ax,folder,chi,t_o2):
+def plot_kymo_figure_s1(ax,folder,chi,t_o2,colormap=None):
     phi_a, phi_i = import_evolution(folder)
     x, y, t = create_spacetime(folder)
     tt1 = writen_time_array_plus_one(folder)
@@ -1438,7 +1442,8 @@ def plot_kymo_figure_s1(ax,folder,chi,t_o2):
     yax = divider.append_axes("left", size=1.2, pad=0.1)
     cax = divider.append_axes('right', size='3%', pad=0.05)
 
-    colormap = color_scale()
+    if colormap is None:
+        colormap = color_scale()
     im = ax.pcolormesh(t,x*chi,phi_a[:,0,:].T,cmap=colormap,vmax=70,rasterized=True)#, vmin=0,vmax=90)
     
     # colormap = custom_colormap(['white','#E4EBF1','#5c87ad','#19354D'])
