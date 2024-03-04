@@ -1,8 +1,8 @@
-# Repository for "Mitotic waves in frog egg extracts: Transition from phase waves to trigger waves"
+# Repository for "Speeding up phase-to-trigger wave transitions: the role of spatial heterogeneity revealed in frog egg extracts"
 
-This repository provides the codes used in the article "Mitotic waves in frog egg extracts: Transition from phase waves to trigger waves". The repository includes codes to analyze experimental data of mitotic waves, codes to perform numerical simulations using the model introduced by Yang and Ferrell (1-2) using a pseudospectral method (3) and codes for reproducing the figures of the manuscript.
+This repository provides the codes used in the article "Speeding up phase-to-trigger wave transitions: the role of spatial heterogeneity revealed in frog egg extracts". The repository includes codes to analyze experimental data of mitotic waves, codes to perform numerical simulations using the model introduced by Yang and Ferrell (1-2) using a pseudospectral method (3) and codes for reproducing the figures of the manuscript.
 
-The preprint is available on [bioRxiv ](https://www.biorxiv.org/content/10.1101/2024.01.18.576267v1)[![DOI:10.1101/2024.01.18.576267](http://img.shields.io/badge/DOI-10.1101/2024.01.18.576267-000000.svg)](https://doi.org/10.1101/2024.01.18.576267)
+The preprint is available on [bioRxiv ](https://www.biorxiv.org/content/10.1101/2024.01.18.576267)[![DOI:10.1101/2024.01.18.576267](http://img.shields.io/badge/DOI-10.1101/2024.01.18.576267-000000.svg)](https://doi.org/10.1101/2024.01.18.576267)
 
 Cite this repository: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10583185.svg)](https://doi.org/10.5281/zenodo.10583185)
 
