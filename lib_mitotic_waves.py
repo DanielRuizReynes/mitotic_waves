@@ -146,6 +146,20 @@ def plot_xyt(ax0, x,y,t, cols, linewidth = 3,label=None):
     cmap = custom_colormap_palette(cols)
     lc0 = create_with_timecolormap( x, y, t, cmap = cmap,linewidth=linewidth)
     ax0.add_collection(lc0)
+    
+def plot_xyt1(ax0,ax1,ax2, x,y,t, cols, linewidth = 3,label=None):
+    xx, yy, tt = x.copy(), y.copy(), t.copy()
+    norm = colors.Normalize(vmin=np.min(tt), vmax=np.max(tt))
+    cmap = custom_colormap(cols)
+    lc0 = create_with_timecolormap( x, y, t, cmap = cmap,linewidth=linewidth,norm=norm)
+    lc1 = create_with_timecolormap( t, x, t, cmap = cmap,linewidth=linewidth,norm=norm)
+    lc2 = create_with_timecolormap( t, y, t, cmap = cmap,linewidth=linewidth,norm=norm)
+    ax0.add_collection(lc0)
+    ax1.add_collection(lc1)
+    ax2.add_collection(lc2)
+
+    # ax1.plot(t, x, label=label,c=cols[-1],linewidth=lw)
+    # ax2.plot(t, y, label=label,c=cols[-1],linewidth=lw)
 
 def color_scale(palette_colors = ['#402D77','#009ED6', '#009642','#FBE136','#E5382C']):
     index = np.linspace(0,1,len(palette_colors))
