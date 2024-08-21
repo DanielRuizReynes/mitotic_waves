@@ -102,6 +102,16 @@ class chang2013model:
         sol = odeint(self.int_ode_eqs, y0, t)
         return tuple([t] + [sol[:,i] for i in range(sol.shape[1])])
     
+    def plot_phaseplane(self, ax, trange = [], xrange = [0,80],yrange = [0,100], color='gray'):
+        y0=[0.001,0.001]
+        t, a, c = self.time_series(y0=y0)
+        ax.plot(c,a,c = color)
+
+        ax.set_xlabel('Total cyclin B - Cdk1 (nM)')
+        ax.set_ylabel('Active cyclin B - Cdk1 (nM)')
+        ax.set_ylim(yrange)
+        ax.set_xlim(xrange)
+    
 def H_a(param,x):
     a,b,ec50,n = param
     hill = a + b*x**n/(ec50**n + x**n)
