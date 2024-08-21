@@ -51,10 +51,8 @@ font = {'family' : 'normal',
         'size'   : 18}
 
 plt.rcParams.update(
-{'font.serif': 'Modern Roman',
- 'font.family': 'Modern Roman',
-"figure.figsize": (1.6*4, 4),
-"text.usetex": True,
+{"figure.figsize": (1.6*4, 4),
+"text.usetex": False,
 "axes.titlesize" : 18,
 "axes.labelsize" : 18,
 "legend.fontsize": 18,
@@ -927,7 +925,7 @@ def create_with_timecolormap(x,y,z,
 
 def plot_period_dadt_speed(ax,folders,chi,
                            labelx = r'$\alpha$',
-                           labelsy = [r'Period $(min)$',r'$\frac{dA}{dt}$ $(a.u.)$',r'Speed ($\mu m/min$)'],
+                           labelsy = [r'Period (min)',r'$\frac{dA}{dt}$ (a.u.)',r' Wave Speed ($\mu$m/min)'],
                            col = '#6A966B',
                            yaxis=True,twinxaxis=True,
                            xrange = [0,1],
@@ -955,11 +953,11 @@ def plot_period_dadt_speed(ax,folders,chi,
     if not inverse_param:
         p1, = ax.plot(param_scan,periods,c= col, label='Period')
         p2, = twin1.plot(p0,max_dadt,c= col,linestyle='dashed',label=r'$\frac{dA}{dt}$')
-        p3, = twin2.plot(param_scan,abs(speeds)*chi*1e3,c= col,linestyle='dotted',label='Speed')
+        p3, = twin2.plot(param_scan,abs(speeds)*chi*1e3,c= col,linestyle='dotted',label='Wave Speed')
     else:
         p1, = ax.plot(1/param_scan,periods,c= col, label='Period')
         p2, = twin1.plot(1/p0,max_dadt,c= col,linestyle='dashed',label=r'$\frac{dA}{dt}$')
-        p3, = twin2.plot(1/param_scan,abs(speeds)*chi*1e3,c= col,linestyle='dotted',label='Speed')
+        p3, = twin2.plot(1/param_scan,abs(speeds)*chi*1e3,c= col,linestyle='dotted',label='Wave Speed')
         
     ax.set(xlim=xrange, ylim=yranges[0], xlabel=labelx)
     twin1.set(xlim=xrange, ylim=yranges[1], xlabel=labelx)
@@ -1452,8 +1450,8 @@ def plot_kymo_figure_s1(ax,folder,chi,t_o2,colormap=None):
     ksx = import_field(folder  + 'ksx.dat')[0]
 
     divider = make_axes_locatable(ax)
-    xax = divider.append_axes("bottom", size=1.2, pad=0.1)
-    yax = divider.append_axes("left", size=1.2, pad=0.1)
+    xax = divider.append_axes("bottom", size=0.9, pad=0.1)
+    yax = divider.append_axes("left", size=0.9, pad=0.1)
     cax = divider.append_axes('right', size='3%', pad=0.05)
 
     if colormap is None:
@@ -1471,12 +1469,12 @@ def plot_kymo_figure_s1(ax,folder,chi,t_o2,colormap=None):
 
 
     cbar = plt.colorbar(im, cax=cax, orientation='vertical')
-    cbar.set_label(r'$Act.$ $cyclin$ $B-Cdk1$', rotation=270,labelpad=20,fontsize=18)
+    cbar.set_label(r'Act. cyclin B-Cdk1', rotation=270,labelpad=20)
 
     blueish = '#5c87ad'
     xax.plot(tt1,1/betat[::len(betat)//len(tt1)],c=blueish)
-    xax.set_xlabel(r'$t$ $(min)$',fontsize=int(14))
-    xax.set_ylabel(r'$1/\beta$ $(Arb.)$',fontsize=int(14))
+    xax.set_xlabel(r'Time (min)')
+    xax.set_ylabel(r'$1/\beta$ (a.u.)')
     xax.yaxis.tick_right()
     xax.yaxis.set_label_position("right")
     xax.axvline(t_o2,c='k')
@@ -1488,14 +1486,14 @@ def plot_kymo_figure_s1(ax,folder,chi,t_o2,colormap=None):
     xax.set_ylim(ymin,ymax)
     
     reddish = '#C44536'
-    yax.plot(ksx,x*chi,c=reddish)
-    yax.set_ylabel(r'$x$ $(mm)$',fontsize=int(14))
-    yax.set_xlabel('$k_s$ $(nM/min)$',fontsize=int(14))
+    yax.plot(ksx,x*chi,c='black')
+    yax.set_ylabel(r'Space (mm)')
+    yax.set_xlabel('$k_s$ (nM/min)')
     yax.invert_xaxis()
-    yax.text(1.535,6, r'$k_s(1$',rotation='vertical')
+    # yax.text(1.535,6, r'$k_s(1$',rotation='vertical')
     # yax.text(1.525,6.5, r'$+P(x)$',rotation='vertical',c='gray')
-    yax.text(1.535,6.5, r'$+A_{ks}N(x))$',rotation='vertical',c=reddish)
-    yax.axvline(np.average(ksx),c='k',linestyle = (0,(1,10)))
+    # yax.text(1.535,6.5, r'$+A_{ks}N(x))$',rotation='vertical',c=reddish)
+    # yax.axvline(np.average(ksx),c='k',linestyle = (0,(1,10)))
     # yax.set_xticklabels(yax.get_xticklabels(), rotation=45, ha='right')
     yax.set_xlim(1.55,1.45)
     yax.set_xticks([1.45,1.5,1.55])
