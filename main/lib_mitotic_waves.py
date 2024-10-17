@@ -548,7 +548,7 @@ def get_period_speed(waves,x,t,array0):
     nn = 0
     for el in waves: 
         nn = nn + el.shape[1]
-    data = np.empty((nn,12)) # icycle, time, period, speed
+    data = np.empty((nn,12)) + np.nan # icycle, time, period, speed
     
     dadx,dadt = np.gradient(array0,x,t)
     dadxdt,dadt2 = np.gradient(dadt,x,t)
