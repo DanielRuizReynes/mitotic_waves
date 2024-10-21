@@ -678,8 +678,10 @@ def get_directory_structure(rootdir,dxdt_path,exceptions):
     dir = {}
     rootdir = rootdir.rstrip(os.sep)
     start = rootdir.rfind(os.sep) + 1
-    for path, dirs, files in os.walk(rootdir):
+    it = sorted([(p, d, f) for p, d, f in os.walk(rootdir)], key=lambda x: x[0])
+    for path, dirs, files in it:
         folders = path[start:].split(os.sep)
+        files.sort()
         subdir = dict.fromkeys(files)
         for key,value in subdir.items():
             if '.tif' in key and not '.tiff' in key:
