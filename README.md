@@ -1,8 +1,8 @@
-# Repository for *Revealing the role of spatial heterogeneity in accelerating phase-to-trigger wave transitions in frog egg extracts*
+# Repository for *Spatial heterogeneity accelerates phase-to-trigger wave transitions in frog egg extracts*
 
 [![DOI:10.1101/2024.01.18.576267](http://img.shields.io/badge/DOI-10.1101/2024.01.18.576267-000000.svg)](https://doi.org/10.1101/2024.01.18.576267) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10583185.svg)](https://doi.org/10.5281/zenodo.10583185)
 
-This repository provides the codes used in the article *Revealing the role of spatial heterogeneity in accelerating phase-to-trigger wave transitions in frog egg extracts*. The repository includes codes to analyze experimental data of mitotic waves, codes to perform numerical simulations using the model introduced by Yang and Ferrell (1-2) using a pseudospectral method (3) and codes for reproducing the figures of the manuscript.
+This repository provides the codes used in the article *Spatial heterogeneity accelerates phase-to-trigger wave transitions in frog egg extracts*. The repository includes codes to analyze experimental data of mitotic waves, codes to perform numerical simulations using the model introduced by Yang and Ferrell (1-2) using a pseudospectral method (3) and codes for reproducing the figures of the manuscript.
 
 ### Python Dependencies
 The codes provided depend on the Python packages.
